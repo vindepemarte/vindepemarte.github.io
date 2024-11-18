@@ -905,6 +905,109 @@
                 transform: translateX(0);
             }
         }
+
+        /* Stili per la pagina di ricerca */
+        .search-page {
+            padding-bottom: 80px; /* Spazio per la nav bar */
+        }
+
+        .search-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .selection-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            background-color: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,...");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+        }
+
+        .result-card {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .result-card.visible {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .cooking-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .temperature-item { border-left-color: #ff6b6b; }
+        .time-item { border-left-color: #4ecdc4; }
+        .notes-item { border-left-color: #ffe66d; }
+
+        /* Quick Actions nella Home */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+        }
+
+        .action-icon {
+            font-size: 2rem;
+        }
+
+        /* Animazioni */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -970,7 +1073,7 @@
                         <option value="poultry">🍗 Pollame</option>
                         <option value="fish">🐟 Pesce</option>
                         <option value="seafood">🦐 Frutti di Mare</option>
-                        <option value="vegetables"> Verdure</option>
+                        <option value="vegetables">🥕 Verdure</option>
                         <option value="desserts">🍮 Dessert</option>
                     </select>
 
@@ -979,8 +1082,24 @@
                     </select>
                 </div>
             </div>
-            <div class="search-results">
-                <!-- Risultati ricerca -->
+
+            <!-- Aggiungiamo il risultato della ricerca -->
+            <div id="resultCard" class="result-card">
+                <h2 id="foodTitle"></h2>
+                <div class="cooking-info">
+                    <div class="info-item temperature-item">
+                        <h3>🌡️ Temperatura</h3>
+                        <div id="temperature" class="info-content"></div>
+                    </div>
+                    <div class="info-item time-item">
+                        <h3>⏲️ Tempo di Cottura</h3>
+                        <div id="cookingTime" class="info-content"></div>
+                    </div>
+                    <div class="info-item notes-item">
+                        <h3>📝 Note e Istruzioni</h3>
+                        <div id="notes" class="info-content"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1053,6 +1172,30 @@
                 // Mostra la sezione corrispondente
                 const pageId = button.dataset.page;
                 document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // Gestione Quick Actions
+        document.querySelectorAll('.action-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Vai alla pagina di ricerca
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('search').classList.add('active');
+                
+                // Aggiorna la nav bar
+                document.querySelectorAll('.nav-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector('[data-page="search"]').classList.add('active');
+
+                // Seleziona automaticamente la categoria
+                const category = button.textContent.trim().toLowerCase();
+                document.getElementById('foodCategory').value = category;
+                // Trigger change event
+                const event = new Event('change');
+                document.getElementById('foodCategory').dispatchEvent(event);
             });
         });
     </script>
