@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida alla Cottura Sottovuoto - KitchenBoss G320</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #2ecc71;
+            --background-color: #fff5f5;
+            --text-color: #2d3436;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            padding: var(--spacing-xl);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        header {
+            text-align: center;
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .device-specs {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            border-radius: 15px;
+            border: 1px solid #eee;
+        }
+
+        .device-specs h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.4rem;
+        }
+
+        .device-specs ul {
+            list-style: none;
+            margin: var(--spacing-md) 0;
+        }
+
+        .device-specs li {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-lg);
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .selection-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-lg);
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        select {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+        }
+
+        .result-card {
+            background-color: white;
+            padding: var(--spacing-xl);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            display: none;
+            margin: var(--spacing-xl) 0;
+        }
+
+        .result-card h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .cooking-info {
+            margin-top: var(--spacing-xl);
+        }
+
+        .info-item {
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl);
+            background-color: #fafafa;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .info-item h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .info-item p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .temp-control {
+            background: linear-gradient(135deg, #f8f9fa, #fff);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            border-radius: 12px;
+            border: 1px solid #eee;
+        }
+
+        .temp-control h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+        }
+
+        .temp-input {
+            display: flex;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .temp-input input {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            min-width: 120px;
+        }
+
+        .temp-input button {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .safety-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --spacing-xs: 0.25rem;
+                --spacing-sm: 0.5rem;
+                --spacing-md: 1rem;
+                --spacing-lg: 1.5rem;
+                --spacing-xl: 2rem;
+            }
+
+            body {
+                padding: var(--spacing-sm);
+            }
+
+            .container {
+                padding: var(--spacing-md);
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .selection-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .info-item {
+                padding: var(--spacing-lg);
+            }
+
+            .temp-input {
+                flex-direction: column;
+            }
+
+            .temp-input input,
+            .temp-input button {
+                width: 100%;
+            }
+
+            .device-specs {
+                padding: var(--spacing-lg);
+            }
+
+            .device-specs li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+
+            header {
+                padding: var(--spacing-lg);
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .info-item h3 {
+                font-size: 1.1rem;
+            }
+
+            .info-item p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Aggiungiamo stili specifici per il contenuto */
+        .info-content {
+            padding: var(--spacing-sm);
+        }
+
+        .time-entry {
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .time-entry:last-child {
+            border-bottom: none;
+        }
+
+        .notes-list {
+            margin-top: var(--spacing-sm);
+        }
+
+        .notes-list p {
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+        }
+
+        .notes-list li {
+            margin-bottom: var(--spacing-xs);
+            padding-left: var(--spacing-md);
+            position: relative;
+        }
+
+        .notes-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .result-card.visible {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-item {
+            background-color: white;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .temperature-item {
+            border-left-color: #ff6b6b;
+        }
+
+        .time-item {
+            border-left-color: #4ecdc4;
+        }
+
+        .notes-item {
+            border-left-color: #ffe66d;
+        }
+
+        .subscription-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1rem;
+        }
+
+        .plan {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan:hover {
+            transform: translateY(-5px);
+        }
+
+        .plan.premium {
+            border: 2px solid var(--primary-color);
+        }
+
+        .best-value {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .price span {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .plan ul {
+            list-style: none;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .plan li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .premium-button {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .premium-button:hover {
+            background: #ff5252;
+        }
+
+        /* Stile per ricette bloccate */
+        .locked-recipe {
+            opacity: 0.5;
+            position: relative;
+        }
+
+        .locked-recipe::after {
+            content: '🔒 Premium';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Aggiungo stili specifici per il G320 */
+        .device-banner {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .device-banner h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .device-banner ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .device-banner li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .device-banner li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guida alla Cottura Sottovuoto con KitchenBoss G320</h1>
+            <p class="header-subtitle">La tua guida completa per cucinare con il KitchenBoss G320</p>
+        </header>
+
+        <div class="device-banner">
+            <div class="device-banner-content">
+                <div class="device-info">
+                    <h3>KitchenBoss G320</h3>
+                    <p>Potente sistema sottovuoto professionale con:</p>
+                    <ul>
+                        <li>Potenza di aspirazione: 80kPa</li>
+                        <li>Display LED touch intuitivo</li>
+                        <li>Barra saldante da 32cm</li>
+                        <li>Modalità automatica e manuale</li>
+                    </ul>
+                </div>
+                <div class="device-image">
+                    <img src="kitchenboss-g320.jpg" alt="KitchenBoss G320" class="device-photo">
+                </div>
+            </div>
+        </div>
+
+        <div class="subscription-banner">
+            <div class="plan free">
+                <h3>Piano Gratuito</h3>
+                <ul>
+                    <li>✓ 5 ricette per categoria</li>
+                    <li>✓ Calcolo base temperatura</li>
+                    <li>✗ Funzioni premium bloccate</li>
+                    <li>✗ Contiene pubblicità</li>
+                </ul>
+                <button class="plan-button">Attuale</button>
+            </div>
+            <div class="plan premium">
+                <div class="best-value">Miglior Valore</div>
+                <h3>Premium</h3>
+                <div class="price">1€<span>/mese</span></div>
+                <ul>
+                    <li>✓ Accesso illimitato</li>
+                    <li>✓ Salvataggio preferiti</li>
+                    <li>✓ Timer con notifiche</li>
+                    <li>✓ Modalità offline</li>
+                    <li>✓ No pubblicità</li>
+                    <li>✓ Note personali</li>
+                    <li>✓ Supporto prioritario</li>
+                </ul>
+                <button class="plan-button premium-button">Passa a Premium</button>
+            </div>
+        </div>
+
+        <div class="selection-container">
+            <select id="foodCategory">
+                <option value="">Scegli la categoria</option>
+                <option value="meat">🥩 Carne</option>
+                <option value="poultry">🍗 Pollame</option>
+                <option value="fish">🐟 Pesce</option>
+                <option value="seafood">🦐 Frutti di Mare</option>
+                <option value="vegetables">🥕 Verdure</option>
+                <option value="desserts">🍮 Dessert</option>
+            </select>
+
+            <select id="foodItem" disabled>
+                <option value="">Seleziona il prodotto</option>
+            </select>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <h2 id="foodTitle"></h2>
+            <div class="cooking-info">
+                <div class="info-item temperature-item">
+                    <h3>🌡️ Temperatura</h3>
+                    <div id="temperature" class="info-content"></div>
+                </div>
+                <div class="info-item time-item">
+                    <h3>⏲️ Tempo di Cottura</h3>
+                    <div id="cookingTime" class="info-content"></div>
+                </div>
+                <div class="info-item notes-item">
+                    <h3>📝 Note e Istruzioni</h3>
+                    <div id="notes" class="info-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
