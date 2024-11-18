@@ -1016,7 +1016,7 @@
         <section id="home" class="page-section home-page active">
             <header>
                 <h1>KitchenBoss G320</h1>
-                <p class="header-subtitle">La tua guida alla cottura sottovuoto</p>
+                <p class="header-subtitle">Guida alle temperature e tempi di cottura sottovuoto</p>
             </header>
 
             <div class="device-banner">
@@ -1038,34 +1038,28 @@
             </div>
 
             <div class="quick-actions">
-                <button class="action-button">
+                <button class="action-button" data-category="meat">
                     <span class="action-icon">🥩</span>
                     Carne
                 </button>
-                <button class="action-button">
+                <button class="action-button" data-category="fish">
                     <span class="action-icon">🐟</span>
                     Pesce
                 </button>
-                <button class="action-button">
+                <button class="action-button" data-category="vegetables">
                     <span class="action-icon">🥕</span>
                     Verdure
                 </button>
-                <button class="action-button">
+                <button class="action-button" data-category="desserts">
                     <span class="action-icon">🍮</span>
                     Dessert
                 </button>
-            </div>
-
-            <div class="recent-recipes">
-                <h3>Ricette Recenti</h3>
-                <!-- Lista ricette recenti -->
             </div>
         </section>
 
         <!-- Search Page -->
         <section id="search" class="page-section search-page">
             <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Cerca ricetta...">
                 <div class="selection-container">
                     <select id="foodCategory">
                         <option value="">Scegli la categoria</option>
@@ -1083,7 +1077,6 @@
                 </div>
             </div>
 
-            <!-- Aggiungiamo il risultato della ricerca -->
             <div id="resultCard" class="result-card">
                 <h2 id="foodTitle"></h2>
                 <div class="cooking-info">
@@ -1154,50 +1147,6 @@
         </button>
     </nav>
 
-    <script>
-        // Gestione navigazione
-        document.querySelectorAll('.nav-button').forEach(button => {
-            button.addEventListener('click', () => {
-                // Rimuovi classe active da tutti i bottoni
-                document.querySelectorAll('.nav-button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                // Aggiungi classe active al bottone cliccato
-                button.classList.add('active');
-
-                // Nascondi tutte le sezioni
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                // Mostra la sezione corrispondente
-                const pageId = button.dataset.page;
-                document.getElementById(pageId).classList.add('active');
-            });
-        });
-
-        // Gestione Quick Actions
-        document.querySelectorAll('.action-button').forEach(button => {
-            button.addEventListener('click', () => {
-                // Vai alla pagina di ricerca
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                document.getElementById('search').classList.add('active');
-                
-                // Aggiorna la nav bar
-                document.querySelectorAll('.nav-button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                document.querySelector('[data-page="search"]').classList.add('active');
-
-                // Seleziona automaticamente la categoria
-                const category = button.textContent.trim().toLowerCase();
-                document.getElementById('foodCategory').value = category;
-                // Trigger change event
-                const event = new Event('change');
-                document.getElementById('foodCategory').dispatchEvent(event);
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html> 
