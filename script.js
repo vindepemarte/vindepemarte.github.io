@@ -2531,3 +2531,75 @@ const deviceStyles = `
 
 // Aggiungi i nuovi stili
 document.head.appendChild(document.createElement('style')).textContent += deviceStyles; 
+
+// Gestione navigazione mobile
+document.addEventListener('DOMContentLoaded', () => {
+    // Gestione navigazione
+    document.querySelectorAll('.nav-button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            const pageId = button.dataset.page;
+            document.getElementById(pageId).classList.add('active');
+        });
+    });
+
+    // Quick Actions
+    document.querySelectorAll('.action-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Vai alla pagina di ricerca
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('search').classList.add('active');
+            
+            // Aggiorna nav
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-page="search"]').classList.add('active');
+
+            // Seleziona categoria
+            const category = button.dataset.category;
+            const categorySelect = document.getElementById('foodCategory');
+            categorySelect.value = category;
+            categorySelect.dispatchEvent(new Event('change'));
+        });
+    });
+
+    // Gestione selezione categoria e prodotto
+    const categorySelect = document.getElementById('foodCategory');
+    const itemSelect = document.getElementById('foodItem');
+    
+    categorySelect.addEventListener('change', (e) => {
+        const category = e.target.value;
+        itemSelect.innerHTML = '<option value="">Seleziona Prodotto</option>';
+        itemSelect.disabled = !category;
+
+        if (category && foodData[category]) {
+            Object.keys(foodData[category]).forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = foodData[category][item].name;
+                itemSelect.appendChild(option);
+            });
+        }
+    });
+
+    itemSelect.addEventListener('change', (e) => {
+        const category = categorySelect.value;
+        const item = e.target.value;
+
+        if (category && item && foodData[category][item]) {
+            const food = foodData[category][item];
+            updateCookingInstructions(food);
+            document.getElementById('resultCard').classList.add('visible');
+        }
+    });
+});
