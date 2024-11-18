@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guida alla Cottura Sottovuoto - KitchenBoss G320</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3498db">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="G320 Guide">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
     <style>
         :root {
             --primary-color: #3498db;
@@ -497,6 +503,22 @@
             left: 0;
             color: #2ecc71;
         }
+
+        .install-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-top: 10px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .install-button:hover {
+            background: #27ae60;
+        }
     </style>
 </head>
 <body>
@@ -546,7 +568,7 @@
                     <li>✓ Modalità offline</li>
                     <li>✓ No pubblicità</li>
                     <li>✓ Note personali</li>
-                    <li>✓ Supporto prioritario</li>
+                    <li> Supporto prioritario</li>
                 </ul>
                 <button class="plan-button premium-button">Passa a Premium</button>
             </div>
@@ -587,5 +609,44 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registrato con successo:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Registrazione ServiceWorker fallita:', error);
+                    });
+            });
+        }
+
+        // Aggiungi banner per installazione PWA
+        let deferredPrompt;
+        const addBtn = document.createElement('button');
+        addBtn.style.display = 'none';
+        addBtn.className = 'install-button';
+        addBtn.textContent = 'Installa App';
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            addBtn.style.display = 'block';
+
+            addBtn.addEventListener('click', (e) => {
+                addBtn.style.display = 'none';
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+
+        document.querySelector('.header-subtitle').after(addBtn);
+    </script>
 </body>
 </html> 
