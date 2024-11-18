@@ -519,6 +519,258 @@
         .install-button:hover {
             background: #27ae60;
         }
+
+        /* Ottimizzazioni Mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            header {
+                margin: 0 0 1rem 0;
+                padding: 1.5rem 1rem;
+                border-radius: 0 0 15px 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+
+            /* Miglioramento selezione categoria */
+            .selection-container {
+                gap: 1rem;
+                margin: 1rem 0;
+                padding: 0.8rem;
+            }
+
+            select {
+                height: 3.5rem;
+                font-size: 1.1rem;
+                padding: 0 1rem;
+                border-radius: 12px;
+                background-position: right 1rem center;
+                transition: all 0.3s ease;
+            }
+
+            select:focus {
+                transform: scale(1.02);
+                box-shadow: 0 0 0 2px var(--primary-color);
+            }
+
+            /* Card dei risultati più compatta */
+            .result-card {
+                margin: 1rem 0;
+                padding: 1rem;
+                animation: slideUp 0.3s ease-out;
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .info-item {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                transition: all 0.3s ease;
+            }
+
+            .info-item:active {
+                transform: scale(0.98);
+            }
+
+            /* Banner dispositivo ottimizzato */
+            .device-banner {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+
+            .device-banner-content {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+
+            .device-image {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .device-image img {
+                width: 100%;
+                height: auto;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+
+            /* Piani subscription più compatti */
+            .subscription-banner {
+                gap: 1rem;
+                margin: 1rem 0;
+            }
+
+            .plan {
+                padding: 1.2rem;
+                transition: transform 0.3s ease;
+            }
+
+            .plan:active {
+                transform: scale(0.98);
+            }
+
+            /* Controllo temperatura ottimizzato */
+            .temp-control {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+
+            .temp-input {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .temp-input input {
+                height: 3rem;
+                font-size: 1.1rem;
+                border-radius: 8px;
+            }
+
+            .temp-input button {
+                height: 3rem;
+                padding: 0 1.5rem;
+                border-radius: 8px;
+                font-size: 1rem;
+            }
+
+            /* Animazioni touch feedback */
+            .time-entry {
+                padding: 0.8rem;
+                margin: 0.3rem 0;
+                background: #f8f9fa;
+                border-radius: 8px;
+                transition: background-color 0.2s ease;
+            }
+
+            .time-entry:active {
+                background: #e9ecef;
+            }
+
+            /* Bottone installazione app */
+            .install-button {
+                width: calc(100% - 2rem);
+                margin: 1rem;
+                padding: 1rem;
+                font-size: 1.1rem;
+                border-radius: 12px;
+                background: var(--accent-color);
+                color: white;
+                text-align: center;
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            /* Miglioramento scrolling */
+            .notes-list {
+                max-height: 60vh;
+                overflow-y: auto;
+                padding-right: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Feedback tattile */
+            * {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            button, select, .info-item {
+                cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
+            }
+
+            /* Loading states */
+            .loading {
+                opacity: 0.7;
+                pointer-events: none;
+            }
+
+            /* Sticky header per categorie */
+            .selection-container {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: white;
+                padding: 1rem;
+                margin: 0 -1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            /* Bottom navigation per mobile */
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                display: flex;
+                justify-content: space-around;
+                z-index: 1000;
+            }
+
+            .mobile-nav button {
+                padding: 0.5rem 1rem;
+                border: none;
+                background: none;
+                color: var(--text-color);
+                font-size: 0.9rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+            .mobile-nav button.active {
+                color: var(--primary-color);
+            }
+
+            /* Safe area per iPhone */
+            @supports (padding: max(0px)) {
+                .mobile-nav {
+                    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+                }
+                
+                body {
+                    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+                }
+            }
+        }
     </style>
 </head>
 <body>
@@ -581,7 +833,7 @@
                 <option value="poultry">🍗 Pollame</option>
                 <option value="fish">🐟 Pesce</option>
                 <option value="seafood">🦐 Frutti di Mare</option>
-                <option value="vegetables">���� Verdure</option>
+                <option value="vegetables"> Verdure</option>
                 <option value="desserts">🍮 Dessert</option>
             </select>
 
@@ -648,5 +900,23 @@
 
         document.querySelector('.header-subtitle').after(addBtn);
     </script>
+    <div class="mobile-nav">
+        <button class="active">
+            <span>🏠</span>
+            Home
+        </button>
+        <button>
+            <span>🔍</span>
+            Cerca
+        </button>
+        <button>
+            <span>⭐</span>
+            Preferiti
+        </button>
+        <button>
+            <span>⚙️</span>
+            Impostazioni
+        </button>
+    </div>
 </body>
 </html> 
