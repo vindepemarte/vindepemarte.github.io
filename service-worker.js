@@ -1,4 +1,4 @@
-const CACHE_NAME = 'g320-guide-v1';
+const CACHE_NAME = 'g320-guide-v2';
 const urlsToCache = [
   './',
   './index.html',
