@@ -1,1 +1,160 @@
-index.html
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida alla Cottura Sottovuoto - KitchenBoss G320</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3498db">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="G320 Guide">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --accent-color: #2ecc71;
+        }
+        .install-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-top: 10px;
+            cursor: pointer;
+            display: none;
+        }
+        .install-button:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guida alla Cottura Sottovuoto con KitchenBoss G320</h1>
+            <p class="header-subtitle">La tua guida completa per cucinare con il KitchenBoss G320</p>
+        </header>
+
+        <div class="device-banner">
+            <div class="device-banner-content">
+                <div class="device-info">
+                    <h3>KitchenBoss G320</h3>
+                    <p>Potente sistema sottovuoto professionale con:</p>
+                    <ul>
+                        <li>Potenza di aspirazione: 80kPa</li>
+                        <li>Display LED touch intuitivo</li>
+                        <li>Barra saldante da 32cm</li>
+                        <li>Modalità automatica e manuale</li>
+                    </ul>
+                </div>
+                <div class="device-image">
+                    <img src="kitchenboss-g320.jpg" alt="KitchenBoss G320" class="device-photo">
+                </div>
+            </div>
+        </div>
+
+        <div class="subscription-banner">
+            <div class="plan free">
+                <h3>Piano Gratuito</h3>
+                <ul>
+                    <li>✓ 5 ricette per categoria</li>
+                    <li>✓ Calcolo base temperatura</li>
+                    <li>✗ Funzioni premium bloccate</li>
+                    <li>✗ Contiene pubblicità</li>
+                </ul>
+                <button class="plan-button">Attuale</button>
+            </div>
+            <div class="plan premium">
+                <div class="best-value">Miglior Valore</div>
+                <h3>Premium</h3>
+                <div class="price">1€<span>/mese</span></div>
+                <ul>
+                    <li>✓ Accesso illimitato</li>
+                    <li>✓ Salvataggio preferiti</li>
+                    <li>✓ Timer con notifiche</li>
+                    <li>✓ Modalità offline</li>
+                    <li>✓ No pubblicità</li>
+                    <li>✓ Note personali</li>
+                    <li>✓ Supporto prioritario</li>
+                    <li> Supporto prioritario</li>
+                </ul>
+                <button class="plan-button premium-button">Passa a Premium</button>
+            </div>
+        </div>
+
+        <div class="selection-container">
+            <select id="foodCategory">
+                <option value="">Scegli la categoria</option>
+                <option value="meat">🥩 Carne</option>
+                <option value="poultry">🍗 Pollame</option>
+                <option value="fish">🐟 Pesce</option>
+                <option value="seafood">🦐 Frutti di Mare</option>
+                <option value="vegetables">🥕 Verdure</option>
+                <option value="desserts">🍮 Dessert</option>
+            </select>
+
+            <select id="foodItem" disabled>
+                <option value="">Seleziona il prodotto</option>
+            </select>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <h2 id="foodTitle"></h2>
+            <div class="cooking-info">
+                <div class="info-item temperature-item">
+                    <h3>🌡️ Temperatura</h3>
+                    <div id="temperature" class="info-content"></div>
+                </div>
+                <div class="info-item time-item">
+                    <h3>⏲️ Tempo di Cottura</h3>
+                    <div id="cookingTime" class="info-content"></div>
+                </div>
+                <div class="info-item notes-item">
+                    <h3>📝 Note e Istruzioni</h3>
+                    <div id="notes" class="info-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registrato con successo:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Registrazione ServiceWorker fallita:', error);
+                    });
+            });
+        }
+        // Aggiungi banner per installazione PWA
+        let deferredPrompt;
+        const addBtn = document.createElement('button');
+        addBtn.style.display = 'none';
+        addBtn.className = 'install-button';
+        addBtn.textContent = 'Installa App';
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            addBtn.style.display = 'block';
+            addBtn.addEventListener('click', (e) => {
+                addBtn.style.display = 'none';
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+        document.querySelector('.header-subtitle').after(addBtn);
+    </script>
+</body>
+</html> 
